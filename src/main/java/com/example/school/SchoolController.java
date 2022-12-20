@@ -1,11 +1,16 @@
 package com.example.school;
 
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Controller
 public class SchoolController {
 
 
@@ -35,9 +40,48 @@ https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#standard-express
     @GetMapping("/students")
     public String getStudents(Model model)
     {
+        String status = null;
+
         model.addAttribute("message", "It's a test message");
         model.addAttribute("students", students);
         model.addAttribute("tutor", teacher);
+        model.addAttribute("status", status);
         return "list";
     }
+    @GetMapping("/add")
+    public String addNewStudent(Student student)
+    {
+        return "add-student";
+    }
+
+    @PostMapping("/students")
+    public String createStudent(
+            @Valid @ModelAttribute Student student,
+            BindingResult result, // нужна чтобы проверить соответствует ли Student правилам валидации
+            Model model
+    )
+    {
+        if(result.hasErrors())
+            return "add-student";
+
+        students.add(student);
+        return "redirect:/students";
+    }
+
+    @PostMapping("/teachers")
+    public String updateTeacher(
+            @Valid @ModelAttribute Teacher teacher,
+            BindingResult result, // нужна чтобы проверить соответствует ли Student правилам валидации
+            Model model
+    )
+    {
+        // что если в result есть ошибки то нужно возвратить обратно
+        if(result.hasErrors())
+            return "change-teacher";
+        // если ошибок нет, поменять текущего teacher
+        this.teacher = teacher;
+        // и сделать redirect в /students
+        return "redirect:/students";
+    }
+
 }

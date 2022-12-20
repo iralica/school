@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<h1 th:text="${message}">Header #1</h1>
+<!--
+context.getMessage()
+-->
+<!--  my version
+<div th:replace="fragments/header"/>
+
+<div th:switch="${#lists.size(students)}">5>
+    <p th:case="true">Group is BIG</p>
+    <p th:case="false">Group is SMALL</p>
+    <p th:case="*">Group is some other thing</p>
+</div>
+-->
+<br/>
+<span th:if="${#lists.size(students)} > 5" th:text="BIG"/>
+<span th:if="${#lists.size(students)} <= 5" th:text="SMALL"/>
+<br/>
+<!--
+<span th:text="(${#strings.length(student.last)} > 6 ) ? ('LONG') : ( 'SHORT' )"/>
+-->
+
+<!--
+<div>
+    <span th:text="( ${students.size()} > 5 ) ? ('BIG') : ('SMALL')"></span>
+</div>
+-->
+
+<br/>
+teacher is: [[(${tutor.working}) ? ('Active') : ('Inactive')]]
+<br/>
+
+<div th:if="${status == null}">
+    <span>status is null</span>
+</div>
+
+<div th:switch="${tutor.working}">
+    <p th:case="true">Tutor is active</p>
+    <p th:case="false">Tutor is not active</p>
+    <p th:case="*">Tutor is some other thing</p>
+</div>
+
+
+<h2 th:text="${tutor.id}">Id</h2>
+<h2 th:text="${tutor.name}">Name</h2>
+
+<h3 th:text="${students[2].last}"></h3>
+
+<!--
+<ul>
+    <li th:each="student: ${students}" th:text="${student.last}">Student</li>
+</ul>
+-->
+<ul>
+    <li th:each="student: ${students}" th:text="|Student full name is ${student.first} ${student.last}|">Student</li>
+</ul>
+
+
+<span th:each="student: ${students}">
+        <span th:text="${student.last}"/>
+        <span th:text="(${  #strings.endsWith(student.last, 'a')   }) ? ('F') : ( 'M' )"/>
+
+        <span th:text="(${student.age} > 25 ) ? ('aspirant') : ( 'student' )"/>
+    <!--
+     > < = !=
+
+    -->
+        <span th:class="(${  #strings.endsWith(student.last, 'a')   }) ? ('F') : ( 'M' )"/>
+        <br/>
+    </span>
+
+<a th:href="@{/teacher(id=${tutor.id},name=${tutor.name})}">Link to a teacher</a><br/>
+
+<a th:href="@{/student/{id}(id=${students[0].id})}">Student #0</a><br/>
+
+
+
+<div th:replace="fragments/footer"/>
+
+</html>

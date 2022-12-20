@@ -3,12 +3,12 @@ package com.example.school;
 public class Teacher {
     private Long id;
     private String name;
-    private boolean isActive = true;
+    private boolean working = true;
 
-    public Teacher(Long id, String name, boolean isActive) {
+    public Teacher(Long id, String name, boolean working) {
         this.id = id;
         this.name = name;
-        this.isActive = isActive;
+        this.working = working;
     }
 
     public Long getId() {
@@ -27,11 +27,21 @@ public class Teacher {
         this.name = name;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean getWorking() {
+        return working;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setWorking(boolean working) {
+        this.working = working;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", working=" + working +
+                '}';
     }
 }
+
